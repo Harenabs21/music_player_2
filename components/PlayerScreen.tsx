@@ -64,7 +64,7 @@ const PlayerScreen = () => {
                 )}
             />
             <View
-                style={className`border-[1px] border-solid border-purple-900 py-2`}>
+                style={className`border-[1px] border-solid border-purple-900 py-4`}>
                 {currentTitle && (
                     <Text
                         style={{
@@ -72,7 +72,6 @@ const PlayerScreen = () => {
                             fontSize: 16,
                             color: '#fff',
                             textAlign: 'center',
-                            paddingTop: 16,
                         }}>
                         {currentTitle}
                     </Text>

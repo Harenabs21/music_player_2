@@ -13,6 +13,50 @@ export default function useAudioPlayer(audioFiles: any[]) {
     });
 
     // Charger et jouer un son par index
+    // const loadAndPlayAudio = async (index: number) => {
+    //     if (index < 0 || index >= audioFiles.length) return;
+
+    //     const file = audioFiles[index];
+
+    //     if (sound) {
+    //         await sound.unloadAsync();
+    //     }
+
+    //     const { sound: newSound } = await Audio.Sound.createAsync(
+    //         { uri: file.uri },
+    //         { shouldPlay: true }
+    //     );
+
+    //     newSound.setOnPlaybackStatusUpdate((status) => {
+    //         if (status.isLoaded) {
+    //             setState({
+    //                 isPlaying: status.isPlaying,
+    //                 position: status.positionMillis,
+    //                 duration: status.durationMillis || 1,
+    //             });
+
+    //             if (status.didJustFinish) {
+    //                 if (
+    //                     currentIndex !== null &&
+    //                     currentIndex < audioFiles.length - 1
+    //                 ) {
+    //                     nextAudio(); // ✅ Passe à la prochaine chanson uniquement si ce n'est pas la dernière
+    //                 } else {
+    //                     setState((prevState) => ({
+    //                         ...prevState,
+    //                         isPlaying: false,
+    //                     })); // ✅ Stoppe la lecture à la fin
+    //                 }
+    //             }
+    //         }
+    //     });
+
+    //     setSound(newSound);
+    //     setCurrentIndex(index);
+    //     setCurrentTitle(file.filename); // 🔥 Met à jour le titre affiché
+    //     setIsFirstPlay(false);
+    // };
+
     const loadAndPlayAudio = async (index: number) => {
         if (index < 0 || index >= audioFiles.length) return;
 
@@ -24,10 +68,10 @@ export default function useAudioPlayer(audioFiles: any[]) {
 
         const { sound: newSound } = await Audio.Sound.createAsync(
             { uri: file.uri },
-            { shouldPlay: true }
+            { shouldPlay: true } // ✅ Active la lecture immédiate
         );
 
-        newSound.setOnPlaybackStatusUpdate((status) => {
+        newSound.setOnPlaybackStatusUpdate(async (status) => {
             if (status.isLoaded) {
                 setState({
                     isPlaying: status.isPlaying,
@@ -35,15 +79,26 @@ export default function useAudioPlayer(audioFiles: any[]) {
                     duration: status.durationMillis || 1,
                 });
 
+                // ✅ Quand la chanson est terminée
                 if (status.didJustFinish) {
-                    nextAudio();
+                    if (index < audioFiles.length - 1) {
+                        // 🔥 Si ce n'est pas la dernière chanson, jouer la suivante
+                        loadAndPlayAudio(index + 1);
+                    } else {
+                        // 🎵 Si c'est la dernière chanson, arrêter la lecture
+                        await newSound.stopAsync();
+                        setState((prevState) => ({
+                            ...prevState,
+                            isPlaying: false,
+                        }));
+                    }
                 }
             }
         });
 
         setSound(newSound);
         setCurrentIndex(index);
-        setCurrentTitle(file.filename); // 🔥 Met à jour le titre affiché
+        setCurrentTitle(file.filename);
         setIsFirstPlay(false);
     };
 

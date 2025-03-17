@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { icons } from '@/constants/icons';
-import className from 'twrnc';
+import className, { style } from 'twrnc';
 
 type TabBarButtonProps = {
     isFocused: boolean;
@@ -26,9 +26,12 @@ export const TabBarButton: FC<TabBarButtonProps> = ({
                 {icons[routeName]({ color: isFocused ? '#79299e' : color })}
             </View>
             <Text
-                style={className`text-xs text-center pb-2 font-(family-name:) ${
-                    isFocused ? 'text-[#79299e]' : 'text-gray-400'
-                }`}>
+                style={[
+                    className`text-base text-center pb-2 font-(family-name:Iceland_400Regular) ${
+                        isFocused ? 'text-[#79299e]' : 'text-gray-400'
+                    }`,
+                    { fontFamily: 'Iceland_400Regular' },
+                ]}>
                 {label}
             </Text>
         </Pressable>
