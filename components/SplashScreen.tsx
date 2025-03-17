@@ -7,6 +7,7 @@ type SplashScreenProps = {
 
 export default function SplashScreen({ onFinish }: SplashScreenProps) {
     return (
+        // create a view
         <View style={styles.animationContainer}>
             <LottieView
                 autoPlay

@@ -39,14 +39,6 @@ export default function HomeScreen() {
 
     return (
         <View style={className`bg-[#020024] h-full p-4`}>
-            <Text
-                style={{
-                    fontFamily: 'Iceland_400Regular',
-                    fontSize: 24,
-                    color: '#fff',
-                }}>
-                Music Player
-            </Text>
             <PlayerScreen />
         </View>
     );

@@ -26,7 +26,7 @@ export const TabBarButton: FC<TabBarButtonProps> = ({
                 {icons[routeName]({ color: isFocused ? '#79299e' : color })}
             </View>
             <Text
-                style={className`text-xs text-center pb-2 ${
+                style={className`text-xs text-center pb-2 font-(family-name:) ${
                     isFocused ? 'text-[#79299e]' : 'text-gray-400'
                 }`}>
                 {label}
