@@ -1,3 +1,4 @@
+import PlaylistScreen from '@/components/PlaylistSreen';
 import { Text, View } from 'react-native';
 import className from 'twrnc';
 
@@ -13,6 +14,7 @@ export default function Playlist() {
                     Hello, This is the Playlist screen!
                 </Text>
             </View>
+            <PlaylistScreen />
         </View>
     );
 }

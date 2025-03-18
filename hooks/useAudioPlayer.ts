@@ -165,6 +165,7 @@ export default function useAudioPlayer(audioFiles: any[]) {
         previousAudio,
         seekAudio,
         state,
-        currentTitle, // 🔥 On retourne le titre
+        currentTitle,
+        currentIndex,
     };
 }
