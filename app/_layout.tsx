@@ -15,6 +15,7 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { useFonts, Iceland_400Regular } from '@expo-google-fonts/iceland';
 
 import SplashScreenComponent from '@/components/SplashScreen'; // Import animated SplashScreen
+import { Audio } from 'expo-av';
 
 // Prevent the splash screen from auto-hiding
 SplashScreen.preventAutoHideAsync();
@@ -34,6 +35,18 @@ export default function RootLayout() {
             SplashScreen.hideAsync();
         }
     }, [loaded, error]);
+    
+    useEffect(()=>{
+        Audio.setIsEnabledAsync(true); // Enable audio playback when app is active
+        Audio.setAudioModeAsync({
+            allowsRecordingIOS: false,
+            staysActiveInBackground: true,
+            playsInSilentModeIOS: true,
+        });
+        return () => {
+            Audio.setIsEnabledAsync(false);
+        };
+    },[])
 
     if ((!loaded && !error) || isSplashVisible) {
         return (
