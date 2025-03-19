@@ -1,41 +1,31 @@
-import * as MediaLibrary from 'expo-media-library';
-import { useEffect, useState } from 'react';
-import { View, Text, Button, FlatList } from 'react-native';
+import { FlatList, TouchableOpacity, Text, View } from 'react-native';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import className from 'twrnc';
+import useAudioPlayer from '@/hooks/useAudioPlayer';
 
-const AudioList = () => {
-    const [audioFiles, setAudioFiles] = useState<MediaLibrary.Asset[]>([]);
-    const [permissionResponse, requestPermission] =
-        MediaLibrary.usePermissions();
+interface AudioListProps {
+  audioFiles: any[];
+  playAudio: (index: number) => void;
+}
 
-    useEffect(() => {
-        const fetchAudioFiles = async () => {
-            if (permissionResponse?.granted) {
-                const media = await MediaLibrary.getAssetsAsync({
-                    mediaType: 'audio',
-                    first: 50, // Limiter à 50 fichiers pour éviter de surcharger la liste
-                });
-                setAudioFiles(media.assets);
-            }
-        };
-
-        fetchAudioFiles();
-    }, [permissionResponse]);
-
-    return (
-        <View>
-            {!permissionResponse?.granted && (
-                <Button
-                    title="Autoriser l'accès aux fichiers"
-                    onPress={requestPermission}
-                />
-            )}
-            <FlatList
-                data={audioFiles}
-                keyExtractor={(item) => item.id}
-                renderItem={({ item }) => <Text>{item.filename}</Text>}
-            />
-        </View>
-    );
+const AudioList = ({ audioFiles, playAudio }: AudioListProps) => {
+  return (
+    <FlatList
+      data={audioFiles}
+      keyExtractor={(item) => item.id}
+      renderItem={({ item, index }) => (
+        <TouchableOpacity
+          style={className`p-2 my-2 border-[1px] border-solid border-purple-900 hover:bg-[#79299e] rounded`}
+          onPress={() => playAudio(index)}
+        >
+          <View style={className`flex-row items-center`}>
+            <Ionicons name="musical-note" size={20} color="#79299e" />
+            <Text style={className`text-white ml-2 text-base`}>{item.filename}</Text>
+          </View>
+        </TouchableOpacity>
+      )}
+    />
+  );
 };
 
 export default AudioList;
