@@ -3,8 +3,12 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import className from 'twrnc';
 import useAudioPlayer from '@/hooks/useAudioPlayer';
 
-const AudioList = ({ audioFiles }: { audioFiles: any[] }) => {
-    const { playAudio } = useAudioPlayer(audioFiles);
+interface AudioListProps {
+    audioFiles: any[];
+    playAudio: (index: number) => void;
+}
+
+const AudioList = ({ audioFiles, playAudio }: AudioListProps) => {
 
     return (
         <FlatList

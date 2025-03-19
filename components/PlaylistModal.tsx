@@ -2,11 +2,20 @@ import { FlatList, Modal, Text, TouchableOpacity, View } from 'react-native';
 import { useState } from 'react';
 import className from 'twrnc';
 import usePlaylist from '@/hooks/usePlaylist';
-import useAudioPlayer from '@/hooks/useAudioPlayer';
 
-const PlaylistModal = ({ audioFiles }: { audioFiles: any[] }) => {
+interface PlaylistModalProps {
+    audioFiles: any[];
+    state: {
+        isPlaying: boolean;
+        position: number;
+        duration: number;
+    };
+    currentTitle: string | null;
+    currentIndex: number | null;
+}
+
+const PlaylistModal = ({ audioFiles, currentIndex, currentTitle,  state }: PlaylistModalProps) => {
     const { playlists, addTrackToPlaylist } = usePlaylist();
-    const { currentIndex, currentTitle,  state } = useAudioPlayer(audioFiles);
     const [isModalVisible, setModalVisible] = useState(false);
     const [selectedPlaylistId, setSelectedPlaylistId] = useState<number | null>(null);
 

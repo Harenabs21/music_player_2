@@ -2,11 +2,23 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { AntDesign } from '@expo/vector-icons';
 import className from 'twrnc';
-import useAudioPlayer from '@/hooks/useAudioPlayer';
 import { formatTime } from '@/helpers/format';
 
-const AudioPlayer = ({ audioFiles }: { audioFiles: any[] }) => {
-    const { togglePlayPause, previousAudio, nextAudio, seekAudio, state, currentTitle } = useAudioPlayer(audioFiles);
+interface AudioPlayerProps {
+    togglePlayPause: () => void;
+    previousAudio: () => void;
+    nextAudio: () => void;
+    state: {
+        isPlaying: boolean;
+        position: number;
+        duration: number;
+    };
+    seekAudio: (position: number) => Promise<void>;
+    currentTitle: string | null;
+}
+
+const AudioPlayer = ({ togglePlayPause, previousAudio, nextAudio, seekAudio, state, currentTitle }: AudioPlayerProps) => {
+    
 
 
 
